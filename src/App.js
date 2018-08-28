@@ -21,15 +21,44 @@ class App extends Component {
     });
   };
 
-  doLogin = () => {
+  onLogin = (user, cb) => {
     console.log('doLogin');
+    setTimeout(() => {
+      this.setState({
+        user: {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          id: 1
+        },
+        isLoginOpen: false
+      });
+      cb();
+    }, 2000);
+  };
+
+  onRegister = (user, cb) => {
+    console.log('doRegister');
+    setTimeout(() => {
+      this.setState({
+        isLoginOpen: false
+      });
+      cb();
+    }, 2000);
+  };
+
+  onReset = (user, cb) => {
+    console.log('doReset');
+    setTimeout(() => {
+      this.setState({
+        isLoginOpen: false
+      });
+      cb();
+    }, 2000);
+  };
+
+  onCancel = user => {
     this.setState({
-      user: {
-        first_name: 'Helmuth',
-        last_name: 'Breitenfellner',
-        email: 'helmuth@breitenfellner.at',
-        id: 1
-      },
       isLoginOpen: false
     });
   };
@@ -38,7 +67,13 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <LoginDialog open={this.state.isLoginOpen} onClose={this.doLogin} />
+        <LoginDialog
+          open={this.state.isLoginOpen}
+          onReset={this.onReset}
+          onLogin={this.onLogin}
+          onRegister={this.onRegister}
+          onCancel={this.onCancel}
+        />
         <BrowserRouter>
           <div>
             <ButtonAppBar

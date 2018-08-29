@@ -12,6 +12,7 @@ import withMobileDialog from '@material-ui/core/withMobileDialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
 import { withStyles } from '@material-ui/core/styles';
+import { FormHelperText } from '@material-ui/core';
 
 const styles = theme => ({
   dialogPaper: {
@@ -29,29 +30,49 @@ const styles = theme => ({
 
 class LoginDialog extends React.Component {
   state = {
-    loginOrRegister: 0,
+    loginOrRegister: 1,
     isBusy: false
   };
 
-  doLogin = () => {
+  isLoginPossible = () => this.state.email && this.state.password;
+
+  isRegisterPossible = () =>
+    this.state.first_name &&
+    this.state.last_name &&
+    this.state.email &&
+    this.state.password &&
+    this.state.password == this.state.password2;
+
+  handleLogin = () => {
     this.setState({ isBusy: 'login' });
     this.props.onLogin(this.state, () => {
       this.setState({ isBusy: false });
     });
   };
 
-  doRegister = () => {
+  handleRegister = () => {
     this.setState({ isBusy: 'register' });
     this.props.onRegister(this.state, () => {
       this.setState({ isBusy: false });
     });
   };
 
-  doReset = () => {
+  handleReset = () => {
     this.setState({ isBusy: 'reset' });
     this.props.onReset(this.state, () => {
       this.setState({ isBusy: false });
     });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      email: '',
+      password: '',
+      password2: '',
+      first_name: '',
+      last_name: ''
+    });
+    this.props.onCancel();
   };
 
   handleChange = event => {
@@ -76,6 +97,12 @@ class LoginDialog extends React.Component {
     const { loginOrRegister } = this.state;
     const busyDisabled = !!this.state.isBusy;
     const buttonProgress = this.props.classes.buttonProgress;
+    const disableLogin = busyDisabled || !this.isLoginPossible();
+    const disableRegister = busyDisabled || !this.isRegisterPossible();
+    const passwordHelperProps = {
+      error: true,
+      onClick: this.handleReset
+    };
 
     return (
       <Dialog
@@ -87,16 +114,7 @@ class LoginDialog extends React.Component {
         classes={{ paper: this.props.classes.dialogPaper }}
       >
         <DialogTitle id="responsive-dialog-title">
-          <Tabs
-            value={this.state.loginOrRegister}
-            onChange={this.onTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            fullWidth
-          >
-            <Tab label="Register" />
-            <Tab label="Login" />
-          </Tabs>
+          {(loginOrRegister === 0 && 'New Account') || 'Login'}
         </DialogTitle>
         <DialogContent>
           {loginOrRegister === 0 && (
@@ -172,6 +190,8 @@ class LoginDialog extends React.Component {
                 name="password"
                 type="password"
                 label="Password"
+                helperText="Forgot Password?"
+                FormHelperTextProps={passwordHelperProps}
               />
             </form>
           )}
@@ -182,10 +202,15 @@ class LoginDialog extends React.Component {
               Existing User
             </Button>
           )}
+          {loginOrRegister === 1 && (
+            <Button disabled={busyDisabled} onClick={this.setRegister}>
+              Register
+            </Button>
+          )}
           {loginOrRegister === 0 && (
             <Button
-              disabled={busyDisabled}
-              onClick={this.doRegister}
+              disabled={disableRegister}
+              onClick={this.handleRegister}
               variant="contained"
               color="primary"
               autoFocus
@@ -195,8 +220,8 @@ class LoginDialog extends React.Component {
           )}
           {loginOrRegister === 1 && (
             <Button
-              disabled={busyDisabled}
-              onClick={this.doLogin}
+              disabled={disableLogin}
+              onClick={this.handleLogin}
               variant="contained"
               color="primary"
               autoFocus
@@ -204,23 +229,12 @@ class LoginDialog extends React.Component {
               Login
             </Button>
           )}
-          {loginOrRegister === 1 && (
-            <Button
-              disabled={busyDisabled}
-              onClick={this.doReset}
-              variant="contained"
-              color="secondary"
-              autoFocus
-            >
-              Reset Password
-            </Button>
-          )}
           {busyDisabled && (
             <CircularProgress size={48} className={buttonProgress} />
           )}
           <Button
             disabled={busyDisabled}
-            onClick={this.props.onCancel}
+            onClick={this.handleCancel}
             variant="outlined"
           >
             Cancel

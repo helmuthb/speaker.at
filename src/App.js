@@ -3,7 +3,7 @@ import { Route, NavLink, BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ButtonAppBar from './ButtonAppBar';
 import Home from './pages/Home';
-import Login from './pages/Login';
+import Register from './pages/Register';
 import LoginDialog from './dialogs/LoginDialog';
 
 class App extends Component {
@@ -37,16 +37,6 @@ class App extends Component {
     }, 2000);
   };
 
-  onRegister = (user, cb) => {
-    console.log('doRegister');
-    setTimeout(() => {
-      this.setState({
-        isLoginOpen: false
-      });
-      cb();
-    }, 2000);
-  };
-
   onReset = (user, cb) => {
     console.log('doReset');
     setTimeout(() => {
@@ -67,22 +57,23 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <LoginDialog
-          open={this.state.isLoginOpen}
-          onReset={this.onReset}
-          onLogin={this.onLogin}
-          onRegister={this.onRegister}
-          onCancel={this.onCancel}
-        />
         <BrowserRouter>
           <div>
+            <LoginDialog
+              open={this.state.isLoginOpen}
+              onReset={this.onReset}
+              onLogin={this.onLogin}
+              onCancel={this.onCancel}
+              registerUrl="/register"
+            />
             <ButtonAppBar
               onLogin={this.openLogin}
               user={this.state.user}
-              title="Speaker @"
+              title="Speaker @ GDG"
             />
             <main className="content">
               <Route exact path="/" render={props => <Home />} />
+              <Route path="/register" render={props => <Register />} />
             </main>
           </div>
         </BrowserRouter>

@@ -49,7 +49,10 @@ class ButtonAppBar extends Component {
               color="inherit"
               aria-label="Menu"
             >
-              <MenuIcon />
+              <img
+                src="/icon-72x72.png"
+                style={{ width: '38px', height: '38px' }}
+              />
             </IconButton>
             <Typography
               variant="title"

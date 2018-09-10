@@ -5,70 +5,33 @@ import ButtonAppBar from './ButtonAppBar';
 import Home from './pages/Home';
 import Register from './pages/Register';
 import LoginDialog from './dialogs/LoginDialog';
+import { connect } from '@cerebral/react';
+import { state, signal } from 'cerebral/tags';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: {},
-      isLoginOpen: false
-    };
-  }
-
-  openLogin = () => {
-    this.setState({
-      isLoginOpen: true
-    });
-  };
-
-  onLogin = (user, cb) => {
-    console.log('doLogin');
-    setTimeout(() => {
-      this.setState({
-        user: {
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email,
-          id: 1
-        },
-        isLoginOpen: false
-      });
-      cb();
-    }, 2000);
-  };
-
-  onReset = (user, cb) => {
-    console.log('doReset');
-    setTimeout(() => {
-      this.setState({
-        isLoginOpen: false
-      });
-      cb();
-    }, 2000);
-  };
-
-  onCancel = user => {
-    this.setState({
-      isLoginOpen: false
-    });
-  };
-
-  render() {
+export default connect(
+  {
+    auth: state`auth`,
+    onLogin: signal`onLogin`,
+    onOpenLogin: signal`onOpenLogin`,
+    onCloseLogin: signal`onCloseLogin`,
+    onReset: signal`onReset`
+  },
+  function App({ auth, onLogin, onOpenLogin, onCloseLogin, onReset }) {
     return (
       <React.Fragment>
         <CssBaseline />
         <BrowserRouter>
           <div>
             <LoginDialog
-              open={this.state.isLoginOpen}
-              onReset={this.onReset}
-              onLogin={this.onLogin}
-              onCancel={this.onCancel}
+              open={auth.loginActive}
+              onReset={() => onReset()}
+              onLogin={() => onLogin()}
+              onCancel={() => onCloseLogin()}
               registerUrl="/register"
             />
             <ButtonAppBar
-              onLogin={this.openLogin}
-              user={this.state.user}
+              onLogin={() => onOpenLogin()}
+              user={auth.user}
               title="Speaker @ GDG"
             />
             <main className="content">
@@ -80,6 +43,4 @@ class App extends Component {
       </React.Fragment>
     );
   }
-}
-
-export default App;
+);

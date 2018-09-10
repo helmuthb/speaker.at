@@ -11,6 +11,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import green from '@material-ui/core/colors/green';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { connect } from '@cerebral/react';
+import { state, signal } from 'cerebral/tags';
 
 const styles = theme => ({
   dialogPaper: {
@@ -26,127 +28,136 @@ const styles = theme => ({
   }
 });
 
-class LoginDialog extends React.Component {
-  state = {
-    isBusy: false
-  };
-
-  isLoginPossible = () => this.state.email && this.state.password;
-
-  handleLogin = () => {
-    this.setState({ isBusy: 'login' });
-    this.props.onLogin(this.state, () => {
-      this.setState({ isBusy: false });
-    });
-  };
-
-  handleReset = () => {
-    this.setState({ isBusy: 'reset' });
-    this.props.onReset(this.state, () => {
-      this.setState({ isBusy: false });
-    });
-  };
-
-  handleCancel = () => {
-    this.setState({
-      email: '',
-      password: '',
-      password2: '',
-      first_name: '',
-      last_name: ''
-    });
-    this.props.onCancel();
-  };
-
-  handleChange = event => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  render() {
-    const { fullScreen } = this.props;
-    const busyDisabled = !!this.state.isBusy;
-    const buttonProgress = this.props.classes.buttonProgress;
-    const disableLogin = busyDisabled || !this.isLoginPossible();
-    const passwordHelperProps = {
-      error: true,
-      onClick: this.handleReset
+const ConnectedLoginDialog = connect(
+  {
+    auth: state`auth`,
+    onLogin: signal`onLogin`,
+    onOpenLogin: signal`onOpenLogin`,
+    onCloseLogin: signal`onCloseLogin`,
+    onReset: signal`onReset`
+  },
+  class LoginDialog extends React.Component {
+    state = {
+      isBusy: false
     };
 
-    return (
-      <Dialog
-        fullScreen={fullScreen}
-        maxWidth="xs"
-        open={this.props.open}
-        onClose={this.props.onClose}
-        aria-labelledby="responsive-dialog-title"
-        classes={{ paper: this.props.classes.dialogPaper }}
-        onBackdropClick={this.handleCancel}
-        onEscapeKeyDown={this.handleCancel}
-      >
-        <DialogTitle id="responsive-dialog-title">Login</DialogTitle>
-        <DialogContent>
-          <form>
-            Login with your existing account
-            <TextField
-              disabled={busyDisabled}
-              fullWidth
-              required
-              margin="dense"
-              onChange={this.handleChange}
-              value={this.state.email}
-              name="email"
-              label="E-Mail"
-            />
-            <TextField
-              disabled={busyDisabled}
-              fullWidth
-              required
-              margin="dense"
-              onChange={this.handleChange}
-              value={this.state.password}
-              name="password"
-              type="password"
-              label="Password"
-              helperText="Forgot Password?"
-              FormHelperTextProps={passwordHelperProps}
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            disabled={busyDisabled}
-            component={Link}
-            to={this.props.registerUrl}
-          >
-            Register
-          </Button>
-          <Button
-            disabled={disableLogin}
-            onClick={this.handleLogin}
-            variant="contained"
-            color="primary"
-            autoFocus
-          >
-            Login
-          </Button>
-          {busyDisabled && (
-            <CircularProgress size={48} className={buttonProgress} />
-          )}
-          <Button
-            disabled={busyDisabled}
-            onClick={this.handleCancel}
-            variant="outlined"
-          >
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  }
-}
+    isLoginPossible = () => this.state.email && this.state.password;
 
-LoginDialog.propTypes = {
+    handleLogin = () => {
+      this.setState({ isBusy: 'login' });
+      this.props.onLogin(this.state, () => {
+        this.setState({ isBusy: false });
+      });
+    };
+
+    handleReset = () => {
+      this.setState({ isBusy: 'reset' });
+      this.props.onReset(this.state, () => {
+        this.setState({ isBusy: false });
+      });
+    };
+
+    handleCancel = () => {
+      this.setState({
+        email: '',
+        password: '',
+        password2: '',
+        first_name: '',
+        last_name: ''
+      });
+      this.props.onCancel();
+    };
+
+    handleChange = event => {
+      const { name, value } = event.target;
+      this.setState({ [name]: value });
+    };
+
+    render() {
+      const { fullScreen } = this.props;
+      const busyDisabled = !!this.state.isBusy;
+      const buttonProgress = this.props.classes.buttonProgress;
+      const disableLogin = busyDisabled || !this.isLoginPossible();
+      const passwordHelperProps = {
+        error: true,
+        onClick: this.handleReset
+      };
+
+      return (
+        <Dialog
+          fullScreen={fullScreen}
+          maxWidth="xs"
+          open={this.props.open}
+          onClose={this.props.onClose}
+          aria-labelledby="responsive-dialog-title"
+          classes={{ paper: this.props.classes.dialogPaper }}
+          onBackdropClick={this.handleCancel}
+          onEscapeKeyDown={this.handleCancel}
+        >
+          <DialogTitle id="responsive-dialog-title">Login</DialogTitle>
+          <DialogContent>
+            <form>
+              Login with your existing account
+              <TextField
+                disabled={busyDisabled}
+                fullWidth
+                required
+                margin="dense"
+                onChange={this.handleChange}
+                value={this.state.email}
+                name="email"
+                label="E-Mail"
+              />
+              <TextField
+                disabled={busyDisabled}
+                fullWidth
+                required
+                margin="dense"
+                onChange={this.handleChange}
+                value={this.state.password}
+                name="password"
+                type="password"
+                label="Password"
+                helperText="Forgot Password?"
+                FormHelperTextProps={passwordHelperProps}
+              />
+            </form>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              disabled={busyDisabled}
+              component={Link}
+              to={this.props.registerUrl}
+            >
+              Register
+            </Button>
+            <Button
+              disabled={disableLogin}
+              onClick={this.handleLogin}
+              variant="contained"
+              color="primary"
+              autoFocus
+            >
+              Login
+            </Button>
+            {busyDisabled && (
+              <CircularProgress size={48} className={buttonProgress} />
+            )}
+            <Button
+              disabled={busyDisabled}
+              onClick={this.handleCancel}
+              variant="outlined"
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    }
+  }
+);
+
+ConnectedLoginDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
   onLogin: PropTypes.func.isRequired,
@@ -156,4 +167,4 @@ LoginDialog.propTypes = {
   registerUrl: PropTypes.string.isRequired
 };
 
-export default withMobileDialog()(withStyles(styles)(LoginDialog));
+export default withMobileDialog()(withStyles(styles)(ConnectedLoginDialog));

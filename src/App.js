@@ -16,19 +16,13 @@ export default connect(
     onCloseLogin: signal`onCloseLogin`,
     onReset: signal`onReset`
   },
-  function App({ auth, onLogin, onOpenLogin, onCloseLogin, onReset }) {
+  function App({ auth, onOpenLogin }) {
     return (
       <React.Fragment>
         <CssBaseline />
         <BrowserRouter>
           <div>
-            <LoginDialog
-              open={auth.loginActive}
-              onReset={() => onReset()}
-              onLogin={() => onLogin()}
-              onCancel={() => onCloseLogin()}
-              registerUrl="/register"
-            />
+            <LoginDialog registerUrl="/register" />
             <ButtonAppBar
               onLogin={() => onOpenLogin()}
               user={auth.user}

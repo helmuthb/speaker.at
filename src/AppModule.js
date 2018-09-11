@@ -1,4 +1,6 @@
 import { Module } from 'cerebral';
+import { set } from 'cerebral/operators';
+import { state, string } from 'cerebral/tags';
 
 function login({ props, state }) {
   console.log('performing login');
@@ -30,12 +32,18 @@ const AppModule = Module({
     auth: {
       loggedIn: false,
       loginActive: false,
+      loginBusy: false,
       user: {}
     }
   },
   signals: {
-    onLogin: [login, closeLoginDialog],
-    onOpenLogin: [openLoginDialog],
+    onLogin: [
+      set(state`auth.loginBusy`, true),
+      login,
+      set(state`auth.loginBusy`, false),
+      closeLoginDialog
+    ],
+    onOpenLogin: [set(state`auth.loginBusy`, false), openLoginDialog],
     onReset: [closeLoginDialog],
     onCloseLogin: [closeLoginDialog]
   }

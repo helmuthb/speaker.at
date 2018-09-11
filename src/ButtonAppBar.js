@@ -8,6 +8,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { connect } from '@cerebral/react';
+import { state, signal } from 'cerebral/tags';
+import { ButtonBase } from '@material-ui/core';
 
 const styles = {
   root: {
@@ -28,13 +31,13 @@ class ButtonAppBar extends Component {
   }
 
   render() {
-    const { classes, title, user } = this.props;
+    const { classes, title, auth, onOpenLogin } = this.props;
     let login;
-    if (user.first_name) {
-      login = <div>{user.first_name}</div>;
+    if (auth.loggedIn) {
+      login = <div>{auth.user.firstName}</div>;
     } else {
       login = (
-        <Button onClick={this.props.onLogin} color="inherit">
+        <Button onClick={() => onOpenLogin()} color="inherit">
           Login
         </Button>
       );
@@ -74,4 +77,12 @@ ButtonAppBar.propTypes = {
   title: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(ButtonAppBar);
+const ConnectedButtonAppBar = connect(
+  {
+    auth: state`auth`,
+    onOpenLogin: signal`onOpenLogin`
+  },
+  ButtonAppBar
+);
+
+export default withStyles(styles)(ConnectedButtonAppBar);

@@ -37,9 +37,14 @@ class ButtonAppBar extends Component {
       login = <div>{auth.user.firstName}</div>;
     } else {
       login = (
-        <Button onClick={() => onOpenLogin()} color="inherit">
-          Login
-        </Button>
+        <React.Fragment>
+          <Button component={Link} to="/register" variant="contained">
+            Register
+          </Button>
+          <Button onClick={() => onOpenLogin()} color="inherit">
+            Login
+          </Button>
+        </React.Fragment>
       );
     }
 

@@ -108,6 +108,7 @@ class LoginDialog extends React.Component {
           <Button
             disabled={busyDisabled}
             component={Link}
+            onClick={this.handleCancel}
             to={this.props.registerUrl}
           >
             Register

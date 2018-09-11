@@ -53,9 +53,11 @@ class ButtonAppBar extends Component {
         <AppBar position="static">
           <Toolbar>
             <IconButton
+              component={Link}
+              to="/"
               className={classes.menuButton}
               color="inherit"
-              aria-label="Menu"
+              aria-label="Start"
             >
               <img
                 src="/icon-72x72.png"

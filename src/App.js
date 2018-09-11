@@ -3,9 +3,9 @@ import { Route, NavLink, BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ButtonAppBar from './ButtonAppBar';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import LoginDialog from './dialogs/LoginDialog';
+import HomePage from './HomePage';
+import RegisterPage from './RegisterPage';
+import LoginDialog from './LoginDialog';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
 
@@ -42,8 +42,8 @@ export default connect(
               title="Speaker @ GDG"
             />
             <main className="content">
-              <Route exact path="/" render={props => <Home />} />
-              <Route path="/register" render={props => <Register />} />
+              <Route exact path="/" render={props => <HomePage />} />
+              <Route path="/register" render={props => <RegisterPage />} />
             </main>
           </div>
         </BrowserRouter>

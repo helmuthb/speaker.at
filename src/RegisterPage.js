@@ -48,7 +48,7 @@ const styles = theme => ({
   }
 });
 
-class Register extends React.Component {
+class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -129,8 +129,8 @@ class Register extends React.Component {
   }
 }
 
-Register.propTypes = {
+RegisterPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Register);
+export default withStyles(styles)(RegisterPage);

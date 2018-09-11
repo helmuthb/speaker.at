@@ -34,7 +34,17 @@ const AppModule = Module({
       loginActive: false,
       loginBusy: false,
       user: {}
-    }
+    },
+    conference: [
+      {
+        series: 'DevFest Vienna',
+        name: 'DevFest Vienna 2018'
+      },
+      {
+        series: 'droidcon Vienna',
+        name: 'droidcon Vienna 2018'
+      }
+    ]
   },
   signals: {
     onLogin: [

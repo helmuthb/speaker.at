@@ -35,14 +35,40 @@ const AppModule = Module({
       loginBusy: false,
       user: {}
     },
-    conference: [
+    conferences: [
       {
         series: 'DevFest Vienna',
-        name: 'DevFest Vienna 2018'
+        name: 'DevFest Vienna 2018',
+        description:
+          'DevFest Vienna is a yearly conference, with topics all around Mobile, Web, Social and Cloud.',
+        conferenceFrom: 1543050000000,
+        conferenceTo: 1543176000000,
+        location: 'TU Wien',
+        topics: 'Mobile, Cloud, Java, Web',
+        logo: 'https://devfest.at/img/seo/sharing-twitter-2014.png',
+        url: 'https://devfest.at'
       },
       {
         series: 'droidcon Vienna',
-        name: 'droidcon Vienna 2018'
+        name: 'droidcon Vienna 2018',
+        description: 'droidcon brings the best from Android to Vienna!',
+        conferenceFrom: 1537520400000,
+        conferenceTo: 1537632000000,
+        location: 'Technikum Wien',
+        topics: 'Android: Java, Kotlin, React Native, Flutter',
+        logo: 'https://droidcon.at/img/sprites/logo_droidcon-small.png',
+        url: 'https://droidcon.at'
+      },
+      {
+        series: 'Women Techmakers Vienna',
+        name: 'Women Techmakers Vienna 2018',
+        description: 'WTM Vienna - for women and men alike',
+        conferenceFrom: 1537520400000,
+        conferenceTo: 1537632000000,
+        location: 'Technikum Wien',
+        topics: 'Android: Java, Kotlin, React Native, Flutter',
+        logo: 'https://droidcon.at/img/sprites/logo_droidcon-small.png',
+        url: 'https://droidcon.at'
       }
     ]
   },

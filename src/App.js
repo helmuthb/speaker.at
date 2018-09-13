@@ -39,7 +39,7 @@ export default connect(
             <ButtonAppBar
               onLogin={() => onOpenLogin()}
               user={auth.user}
-              title="Speaker @ GDG"
+              title="Speaker @ GDG Vienna"
             />
             <main className="content">
               <Route exact path="/" render={props => <HomePage />} />

@@ -1,20 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import moment from 'moment';
 
 const styles = theme => ({
@@ -34,6 +27,9 @@ const styles = theme => ({
   closed: {
     filter: 'grayscale(100%)',
     opacity: 0.5
+  },
+  button: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -109,7 +105,12 @@ class ConferenceCard extends React.Component {
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
-          <Button disabled={!cfpOpen} color="primary">
+          <Button
+            disabled={!cfpOpen}
+            color={cfpOpen ? 'primary' : false}
+            className={classes.button}
+            variant="outlined"
+          >
             Submit
           </Button>
           <Typography component="p">

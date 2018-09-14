@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import ConferenceInfo from './ConferenceInfo';
 import ConferenceCard from './ConferenceCard';
+import LoginReminder from './LoginReminder';
 
 const styles = theme => ({
   layout: {
@@ -69,9 +70,7 @@ class HomePage extends React.Component {
               </Typography>
             </div>
           </Paper>
-          <Paper className={classes.paper}>
-            Please login to submit talk proposals.
-          </Paper>
+          <LoginReminder />
         </Grid>
         {visibleConferences.map(conference => (
           <Grid item xs={12} sm={6} lg={4}>

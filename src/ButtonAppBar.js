@@ -7,12 +7,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
-import { ButtonBase } from '@material-ui/core';
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
@@ -20,16 +18,14 @@ const styles = {
     flexGrow: 1
   },
   menuButton: {
-    marginLeft: -12,
     marginRight: 20
+  },
+  button: {
+    margin: theme.spacing.unit
   }
-};
+});
 
 class ButtonAppBar extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { classes, title, auth, onOpenLogin } = this.props;
     let login;
@@ -38,10 +34,20 @@ class ButtonAppBar extends Component {
     } else {
       login = (
         <React.Fragment>
-          <Button component={Link} to="/register" variant="contained">
+          <Button
+            className={classes.button}
+            component={Link}
+            to="/register"
+            variant="contained"
+          >
             Register
           </Button>
-          <Button onClick={() => onOpenLogin()} color="inherit">
+          <Button
+            className={classes.button}
+            onClick={() => onOpenLogin()}
+            color="inherit"
+            variant="outlined"
+          >
             Login
           </Button>
         </React.Fragment>
@@ -50,7 +56,7 @@ class ButtonAppBar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <IconButton
               component={Link}

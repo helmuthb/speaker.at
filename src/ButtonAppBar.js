@@ -7,6 +7,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Avatar from '@material-ui/core/Avatar';
+import Popper from '@material-ui/core/Popper';
+import Grow from '@material-ui/core/Grow';
+import Fade from '@material-ui/core/Fade';
+
+import Paper from '@material-ui/core/Paper';
+import MenuList from '@material-ui/core/MenuList';
+import MenuItem from '@material-ui/core/MenuItem';
+import md5 from 'md5';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
 
@@ -26,11 +35,27 @@ const styles = theme => ({
 });
 
 class ButtonAppBar extends Component {
+  state = {
+    anchorEl: null,
+    open: false
+  };
+
+  handleAvatarClick = event => {
+    const trg = event.currentTarget;
+    this.setState(state => ({ anchorEl: trg, open: !state.open }));
+  };
+
   render() {
     const { classes, title, auth, onOpenLogin } = this.props;
     let login;
     if (auth.loggedIn) {
-      login = <div>{auth.user.firstName}</div>;
+      const md5Hash = md5(('' + auth.user.email).trim().toLowerCase());
+      login = (
+        <Avatar
+          onClick={this.handleAvatarClick}
+          src={`https://www.gravatar.com/avatar/${md5Hash}?d=retro`}
+        />
+      );
     } else {
       login = (
         <React.Fragment>
@@ -78,6 +103,23 @@ class ButtonAppBar extends Component {
               {title}
             </Typography>
             {login}
+            <Popper
+              open={this.state.open}
+              anchorEl={this.state.anchorEl}
+              disablePortal
+              transition
+            >
+              {({ TransitionProps }) => (
+                <Fade {...TransitionProps}>
+                  <Paper>
+                    <MenuList>
+                      <MenuItem>Profile</MenuItem>
+                      <MenuItem>Logout</MenuItem>
+                    </MenuList>
+                  </Paper>
+                </Fade>
+              )}
+            </Popper>
           </Toolbar>
         </AppBar>
       </div>

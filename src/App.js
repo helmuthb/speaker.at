@@ -5,6 +5,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ButtonAppBar from './ButtonAppBar';
 import HomePage from './HomePage';
 import RegisterPage from './RegisterPage';
+import ProfilePage from './ProfilePage';
 import LoginDialog from './LoginDialog';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
@@ -43,7 +44,14 @@ export default connect(
             />
             <main className="content">
               <Route exact path="/" render={props => <HomePage />} />
-              <Route path="/register" render={props => <RegisterPage />} />
+              <Route
+                path="/register"
+                render={props => <RegisterPage profileUrl="/profile" />}
+              />
+              <Route
+                path="/profile"
+                render={props => <ProfilePage registerUrl="/register" />}
+              />
             </main>
           </div>
         </BrowserRouter>

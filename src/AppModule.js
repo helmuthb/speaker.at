@@ -8,7 +8,8 @@ function login({ props, state }) {
       state.set('auth.user', {
         firstName: props.firstName || 'Test',
         lastName: props.lastName || 'User',
-        email: props.email || 'test@user.com'
+        email: props.email || 'test@user.com',
+        emailConfirmed: true
       });
       state.set('auth.loggedIn', true);
       resolve({ success: true });
@@ -21,12 +22,29 @@ function logout({ state }) {
   state.set('auth.loggedIn', false);
 }
 
-function closeLoginDialog({ props, state }) {
+function closeLoginDialog({ state }) {
   state.set('auth.loginActive', false);
 }
 
-function openLoginDialog({ props, state }) {
+function openLoginDialog({ state }) {
   state.set('auth.loginActive', true);
+}
+
+function saveProfile({ props, state }) {
+  const user = state.get('auth.user');
+  if (props.firstName) {
+    user.firstName = props.firstName;
+  }
+  if (props.lastName) {
+    user.lastName = props.lastName;
+  }
+  if (props.email && !user.emailConfirmed) {
+    user.email = props.email;
+  }
+  if (props.bio) {
+    user.bio = props.bio;
+  }
+  state.set('auth.user', user);
 }
 
 const AppModule = Module({
@@ -93,7 +111,8 @@ const AppModule = Module({
     onLogout: [logout],
     onOpenLogin: [set(state`auth.loginBusy`, false), openLoginDialog],
     onReset: [closeLoginDialog],
-    onCloseLogin: [closeLoginDialog]
+    onCloseLogin: [closeLoginDialog],
+    onSaveProfile: [saveProfile]
   }
 });
 

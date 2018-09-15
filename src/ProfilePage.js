@@ -1,9 +1,9 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Grid, Paper, Typography, withStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import { Link } from 'react-router-dom';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
 
@@ -44,18 +44,68 @@ const styles = theme => ({
   }
 });
 
-class RegisterPage extends React.Component {
+class ProfilePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      firstName: '',
+      lastName: '',
+      bio: '',
+      email: '',
+      password: '',
+      password2: ''
+    };
+  }
+
+  componentDidMount() {
+    // copy properties into state
+    if (this.props.auth && this.props.auth.user) {
+      const user = this.props.auth.user;
+      this.setState({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        bio: user.bio,
+        email: user.email,
+        password: '',
+        password2: ''
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    // remove state
+    this.setState({
+      firstName: '',
+      lastName: '',
+      bio: '',
+      email: '',
+      password: '',
+      password2: ''
+    });
+  }
+
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  };
+
+  doSave = () => {
+    this.props.onSaveProfile(this.state);
+  };
+
   render() {
     const classes = this.props.classes;
-    if (this.props.auth.loggedIn) {
-      // redirect to profile page
-      return <Redirect to="/profile" />;
+    if (!this.props.auth.loggedIn) {
+      // redirect to home page
+      return <Redirect to="/" />;
     }
+    const emailConfirmed = this.props.auth.user.emailConfirmed;
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography variant="title">Register</Typography>
-          <p>Sign-Up for our Speaker Platform!</p>
+          <Typography variant="title">Your Profile</Typography>
+          <br />
+          <br />
           <form>
             <Grid container spacing={24}>
               <Grid item xs={12} sm={6}>
@@ -63,6 +113,8 @@ class RegisterPage extends React.Component {
                   required
                   name="firstName"
                   label="First name"
+                  onChange={this.handleChange}
+                  value={this.state.firstName}
                   fullWidth
                   autoComplete="fname"
                 />
@@ -72,6 +124,8 @@ class RegisterPage extends React.Component {
                   required
                   name="lastName"
                   label="Last name"
+                  onChange={this.handleChange}
+                  value={this.state.lastName}
                   fullWidth
                   autoComplete="lname"
                 />
@@ -81,6 +135,8 @@ class RegisterPage extends React.Component {
                   required
                   name="bio"
                   label="About you"
+                  onChange={this.handleChange}
+                  value={this.state.bio}
                   multiline
                   rows="3"
                   fullWidth
@@ -92,34 +148,61 @@ class RegisterPage extends React.Component {
                 <TextField
                   name="email"
                   label="E-mail address"
+                  onChange={this.handleChange}
+                  inputProps={{ readOnly: emailConfirmed }}
+                  value={this.state.email}
                   fullWidth
-                  required
+                  required={!emailConfirmed}
                   autoComplete="email"
+                  helperText={
+                    emailConfirmed
+                      ? 'The email address is your login and cannot be changed'
+                      : ''
+                  }
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   type="password"
                   name="password"
                   label="Password"
+                  onChange={this.handleChange}
+                  value={this.state.password}
                   autoComplete="current-password"
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  required
                   type="password2"
                   name="password2"
-                  autoComplete="current-password"
                   label="Password (confirm)"
+                  onChange={this.handleChange}
+                  value={this.state.password2}
+                  autoComplete="current-password"
                   fullWidth
                 />
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" color="primary" autoFocus>
-                  Sign-Up
+                <Button
+                  className={classes.button}
+                  component={Link}
+                  to="/"
+                  onClick={this.doSave}
+                  variant="contained"
+                  color="primary"
+                  autoFocus
+                >
+                  Save
+                </Button>
+                <Button
+                  className={classes.button}
+                  component={Link}
+                  to="/"
+                  color="primary"
+                  autoFocus
+                >
+                  Cancel
                 </Button>
               </Grid>
             </Grid>
@@ -130,11 +213,12 @@ class RegisterPage extends React.Component {
   }
 }
 
-const ConnectedRegisterPage = connect(
+const ConnectedProfilePage = connect(
   {
-    auth: state`auth`
+    auth: state`auth`,
+    onSaveProfile: signal`onSaveProfile`
   },
-  RegisterPage
+  ProfilePage
 );
 
-export default withStyles(styles)(ConnectedRegisterPage);
+export default withStyles(styles)(ConnectedProfilePage);

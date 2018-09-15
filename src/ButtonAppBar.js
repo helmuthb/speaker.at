@@ -44,6 +44,11 @@ class ButtonAppBar extends Component {
   };
 
   handleLogoutClick = event => {
+    this.props.onLogout();
+    this.setState({ open: false });
+  };
+
+  closeMenu = () => {
     this.setState({ open: false });
   };
 
@@ -116,10 +121,16 @@ class ButtonAppBar extends Component {
                 <Fade {...TransitionProps}>
                   <Paper>
                     <MenuList>
-                      <MenuItem onClick={this.handleLogoutClick}>
+                      <MenuItem
+                        onClick={this.closeMenu}
+                        component={Link}
+                        to="/profile"
+                      >
                         Profile
                       </MenuItem>
-                      <MenuItem>Logout</MenuItem>
+                      <MenuItem onClick={this.handleLogoutClick}>
+                        Logout
+                      </MenuItem>
                     </MenuList>
                   </Paper>
                 </Fade>

@@ -7,9 +7,9 @@ function login({ props, state }) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       state.set('auth.user', {
-        firstName: 'Test',
-        lastName: 'User',
-        email: 'test@user.com'
+        firstName: props.firstName || 'Test',
+        lastName: props.lastName || 'User',
+        email: props.email || 'test@user.com'
       });
       state.set('auth.loggedIn', true);
       resolve({ success: true });

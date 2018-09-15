@@ -1,15 +1,11 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
-import {
-  Grid,
-  Paper,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-  withStyles
-} from '@material-ui/core';
+import { Grid, Paper, Typography, withStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import { connect } from '@cerebral/react';
+import { state, signal } from 'cerebral/tags';
 
 const styles = theme => ({
   appBar: {
@@ -49,88 +45,99 @@ const styles = theme => ({
 });
 
 class RegisterPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const classes = this.props.classes;
+    if (this.props.auth.loggedIn) {
+      // redirect to home page
+      return <Redirect to="/" />;
+    }
     return (
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography variant="title">Register</Typography>
           <p>Sign-Up for our Speaker Platform!</p>
-          <Grid container spacing={24}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                name="firstName"
-                label="First name"
-                fullWidth
-                autoComplete="fname"
-              />
+          <form>
+            <Grid container spacing={24}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  name="firstName"
+                  label="First name"
+                  fullWidth
+                  autoComplete="fname"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  name="lastName"
+                  label="Last name"
+                  fullWidth
+                  autoComplete="lname"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  name="bio"
+                  label="About you"
+                  multiline
+                  fullWidth
+                  helperText="Only one or two sentences about you"
+                  autoComplete="bio"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name="email"
+                  label="E-mail address"
+                  fullWidth
+                  required
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  type="password"
+                  name="password"
+                  label="Password"
+                  autoComplete="current-password"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  type="password2"
+                  name="password2"
+                  autoComplete="current-password"
+                  label="Password (confirm)"
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Button variant="contained" color="primary" autoFocus>
+                  Sign-Up
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                name="lastName"
-                label="Last name"
-                fullWidth
-                autoComplete="lname"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                name="bio"
-                label="About you"
-                multiline
-                fullWidth
-                helperText="Only one or two sentences about you"
-                autoComplete="bio"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                name="email"
-                label="E-mail address"
-                fullWidth
-                required
-                autoComplete="email"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                type="password"
-                name="password"
-                label="Password"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                type="password2"
-                name="password2"
-                label="Password (confirm)"
-                fullWidth
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Button variant="contained" color="primary" autoFocus>
-                Sign-Up
-              </Button>
-            </Grid>
-          </Grid>
+          </form>
         </Paper>
       </main>
     );
   }
 }
 
-RegisterPage.propTypes = {
+const ConnectedRegisterPage = connect(
+  {
+    auth: state`auth`
+  },
+  RegisterPage
+);
+
+ConnectedRegisterPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(RegisterPage);
+export default withStyles(styles)(ConnectedRegisterPage);

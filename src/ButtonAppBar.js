@@ -9,9 +9,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import Popper from '@material-ui/core/Popper';
-import Grow from '@material-ui/core/Grow';
 import Fade from '@material-ui/core/Fade';
-
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -43,6 +41,10 @@ class ButtonAppBar extends Component {
   handleAvatarClick = event => {
     const trg = event.currentTarget;
     this.setState(state => ({ anchorEl: trg, open: !state.open }));
+  };
+
+  handleLogoutClick = event => {
+    this.setState({ open: false });
   };
 
   render() {
@@ -92,6 +94,7 @@ class ButtonAppBar extends Component {
             >
               <img
                 src="/icon-72x72.png"
+                alt="GDG Logo"
                 style={{ width: '38px', height: '38px' }}
               />
             </IconButton>
@@ -113,7 +116,9 @@ class ButtonAppBar extends Component {
                 <Fade {...TransitionProps}>
                   <Paper>
                     <MenuList>
-                      <MenuItem>Profile</MenuItem>
+                      <MenuItem onClick={this.handleLogoutClick}>
+                        Profile
+                      </MenuItem>
                       <MenuItem>Logout</MenuItem>
                     </MenuList>
                   </Paper>
@@ -135,7 +140,8 @@ ButtonAppBar.propTypes = {
 const ConnectedButtonAppBar = connect(
   {
     auth: state`auth`,
-    onOpenLogin: signal`onOpenLogin`
+    onOpenLogin: signal`onOpenLogin`,
+    onLogout: signal`onLogout`
   },
   ButtonAppBar
 );

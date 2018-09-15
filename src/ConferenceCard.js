@@ -59,7 +59,6 @@ class ConferenceCard extends React.Component {
       conference.cfpFrom <= currentDate && conference.cfpTo >= currentDate;
     let cfpTiming =
       'Call closes ' + moment(conference.cfpTo).format('D MMMM Y');
-    let className = [classes.card];
     if (!cfpOpen) {
       if (conference.cfpFrom > currentDate) {
         cfpTiming =
@@ -68,7 +67,6 @@ class ConferenceCard extends React.Component {
         cfpTiming =
           'Call closed on ' + moment(conference.cfpTo).format('D MMMM Y');
       }
-      className.push(classes.closed);
     }
     return (
       <Card className={classes.card}>
@@ -84,37 +82,41 @@ class ConferenceCard extends React.Component {
           subheader={moment(conference.conferenceFrom).format('D MMMM Y')}
         />
         <CardContent
-          className={[classes.content, cfpOpen ? classes.open : classes.closed]}
+          className={
+            classes.content + ' ' + cfpOpen ? classes.open : classes.closed
+          }
         >
-          <Typography component="p">
+          <Typography component="div">
             <div style={{ minHeight: 55, fontStyle: 'italic' }}>
               {conference.description}
             </div>
             <table border="0">
-              <TableRow title="When">
-                {moment(conference.conferenceFrom).format('D MMMM Y')}
-              </TableRow>
-              <TableRow title="Where">{conference.location}</TableRow>
-              <TableRow title="Topics">{conference.topics}</TableRow>
-              <TableRow title="Website">
-                <a target="_blank" href={conference.url}>
-                  {shortUrl}
-                </a>
-              </TableRow>
+              <tbody>
+                <TableRow title="When">
+                  {moment(conference.conferenceFrom).format('D MMMM Y')}
+                </TableRow>
+                <TableRow title="Where">{conference.location}</TableRow>
+                <TableRow title="Topics">{conference.topics}</TableRow>
+                <TableRow title="Website">
+                  <a target="_blank" href={conference.url}>
+                    {shortUrl}
+                  </a>
+                </TableRow>
+              </tbody>
             </table>
           </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Button
             disabled={!cfpOpen}
-            color={cfpOpen ? 'primary' : false}
+            color={cfpOpen ? 'primary' : undefined}
             className={classes.button}
             variant="outlined"
           >
             Submit
           </Button>
-          <Typography component="p">
-            <div style={{ fontStyle: 'italic' }}>{cfpTiming}</div>
+          <Typography component="div" style={{ fontStle: 'italic' }}>
+            {cfpTiming}
           </Typography>
         </CardActions>
       </Card>

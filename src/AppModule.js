@@ -1,9 +1,8 @@
 import { Module } from 'cerebral';
 import { set } from 'cerebral/operators';
-import { state, string } from 'cerebral/tags';
+import { state } from 'cerebral/tags';
 
 function login({ props, state }) {
-  console.log('performing login');
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       state.set('auth.user', {
@@ -17,13 +16,16 @@ function login({ props, state }) {
   });
 }
 
+function logout({ state }) {
+  state.set('auth.user', {});
+  state.set('auth.loggedIn', false);
+}
+
 function closeLoginDialog({ props, state }) {
-  console.log('Closing login dialog');
   state.set('auth.loginActive', false);
 }
 
 function openLoginDialog({ props, state }) {
-  console.log('Opening login dialog');
   state.set('auth.loginActive', true);
 }
 
@@ -37,6 +39,7 @@ const AppModule = Module({
     },
     conferences: [
       {
+        id: 1,
         series: 'DevFest Vienna',
         name: 'DevFest Vienna 2018',
         description:
@@ -51,6 +54,7 @@ const AppModule = Module({
         url: 'https://devfest.at'
       },
       {
+        id: 2,
         series: 'droidcon Vienna',
         name: 'droidcon Vienna 2018',
         description: 'droidcon brings the best from Android to Vienna!',
@@ -64,6 +68,7 @@ const AppModule = Module({
         url: 'https://droidcon.at'
       },
       {
+        id: 3,
         series: 'Women Techmakers Vienna',
         name: 'Women Techmakers Vienna 2018',
         description: 'WTM Vienna - for women and men alike',
@@ -85,6 +90,7 @@ const AppModule = Module({
       set(state`auth.loginBusy`, false),
       closeLoginDialog
     ],
+    onLogout: [logout],
     onOpenLogin: [set(state`auth.loginBusy`, false), openLoginDialog],
     onReset: [closeLoginDialog],
     onCloseLogin: [closeLoginDialog]

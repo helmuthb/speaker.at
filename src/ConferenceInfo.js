@@ -23,6 +23,7 @@ class ConferenceInfo extends React.Component {
       <React.Fragment>
         <img
           style={{ maxHeight: '50px', maxWidth: '120px' }}
+          alt={conference.name}
           src={conference.logo}
         />
         <Typography variant="title">{conference.name}</Typography>

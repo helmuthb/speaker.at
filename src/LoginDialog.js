@@ -29,7 +29,10 @@ const styles = theme => ({
 });
 
 class LoginDialog extends React.Component {
-  state = {};
+  state = {
+    email: '',
+    password: ''
+  };
 
   isLoginPossible = () =>
     this.state.email && this.state.password && !this.props.auth.loginBusy;
@@ -84,6 +87,7 @@ class LoginDialog extends React.Component {
               fullWidth
               required
               margin="dense"
+              autoComplete="email"
               onChange={this.handleChange}
               value={this.state.email}
               name="email"
@@ -99,6 +103,7 @@ class LoginDialog extends React.Component {
               name="password"
               type="password"
               label="Password"
+              autoComplete="current-password"
               helperText="Forgot Password?"
               FormHelperTextProps={passwordHelperProps}
             />
@@ -151,10 +156,6 @@ const ConnectedLoginDialog = connect(
 
 ConnectedLoginDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
-  open: PropTypes.bool.isRequired,
-  onLogin: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
   registerUrl: PropTypes.string.isRequired
 };
 

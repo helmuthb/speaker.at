@@ -1,15 +1,7 @@
 import React from 'react';
 import { connect } from '@cerebral/react';
 import { state } from 'cerebral/tags';
-import {
-  Grid,
-  Paper,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-  withStyles
-} from '@material-ui/core';
-import ConferenceInfo from './ConferenceInfo';
+import { Grid, Paper, Typography, withStyles } from '@material-ui/core';
 import ConferenceCard from './ConferenceCard';
 import LoginReminder from './LoginReminder';
 
@@ -46,22 +38,30 @@ class HomePage extends React.Component {
       .sort((c1, c2) => c1.cfpTo > c2.cfpTo);
     return (
       <Grid container spacing={40} className={classes.layout}>
-        <Grid item xs={24}>
+        <Grid item xs={12}>
           <Paper className={classes.paper}>
             <div style={{ overflow: 'auto' }}>
               <a
                 style={{ float: 'right' }}
                 target="_blank"
+                rel="noopener noreferrer"
                 href="http://diversitycharter.org"
               >
-                <img src="/img/supporting-diversity.png" />
+                <img
+                  src="/img/supporting-diversity.png"
+                  alt="Diversity Charter logo"
+                />
               </a>
               <p>
                 <b>Call for Papers manager by GDG Vienna!</b>
               </p>
               <Typography component="p">
                 We at{' '}
-                <a href="http://www.gdg-vienna.at/" target="_blank">
+                <a
+                  href="http://www.gdg-vienna.at/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   GDG Vienna
                 </a>{' '}
                 are involved in the organization of the following events and
@@ -73,7 +73,7 @@ class HomePage extends React.Component {
           <LoginReminder />
         </Grid>
         {visibleConferences.map(conference => (
-          <Grid item xs={12} sm={6} lg={4}>
+          <Grid key={conference.id} item xs={12} sm={6} lg={4}>
             <ConferenceCard conference={conference} />
           </Grid>
         ))}

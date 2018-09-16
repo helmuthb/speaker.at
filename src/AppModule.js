@@ -58,6 +58,7 @@ const AppModule = Module({
     conferences: [
       {
         id: 1,
+        key: 'devfest-2018',
         series: 'DevFest Vienna',
         name: 'DevFest Vienna 2018',
         description:
@@ -73,6 +74,7 @@ const AppModule = Module({
       },
       {
         id: 2,
+        key: 'droidcon-2018',
         series: 'droidcon Vienna',
         name: 'droidcon Vienna 2018',
         description: 'droidcon brings the best from Android to Vienna!',
@@ -87,6 +89,7 @@ const AppModule = Module({
       },
       {
         id: 3,
+        key: 'wtmvienna-2018',
         series: 'Women Techmakers Vienna',
         name: 'Women Techmakers Vienna 2018',
         description: 'WTM Vienna - for women and men alike',

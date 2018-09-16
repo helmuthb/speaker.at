@@ -29,16 +29,19 @@ const styles = theme => ({
 });
 
 class LoginDialog extends React.Component {
-  state = {
-    email: '',
-    password: ''
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    };
+  }
 
   isLoginPossible = () =>
     this.state.email && this.state.password && !this.props.auth.loginBusy;
 
   handleLogin = () => {
-    this.setState({ email: undefined, password: undefined });
+    this.setState({ email: '', password: '' });
     this.props.onLogin({
       email: this.state.email,
       password: this.state.password
@@ -46,7 +49,7 @@ class LoginDialog extends React.Component {
   };
 
   handleCancel = () => {
-    this.setState({ email: undefined, password: undefined });
+    this.setState({ email: '', password: '' });
     this.props.onCloseLogin();
   };
 

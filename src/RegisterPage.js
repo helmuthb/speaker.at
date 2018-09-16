@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Grid, Paper, Typography, withStyles } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +14,7 @@ const styles = theme => ({
     width: 'auto',
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 9,
     [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
       width: 600,
       marginLeft: 'auto',
@@ -26,8 +26,6 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3,
     padding: theme.spacing.unit * 2,
     [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-      marginTop: theme.spacing.unit * 6,
-      marginBottom: theme.spacing.unit * 6,
       padding: theme.spacing.unit * 3
     }
   },
@@ -110,7 +108,7 @@ class RegisterPage extends React.Component {
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
-                  type="password2"
+                  type="password"
                   name="password2"
                   autoComplete="current-password"
                   label="Password (confirm)"

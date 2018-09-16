@@ -7,6 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import moment from 'moment';
 
@@ -108,8 +109,10 @@ class ConferenceCard extends React.Component {
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <Button
+            component={Link}
+            to={`/conference/${conference.key}`}
             disabled={!cfpOpen}
-            color={cfpOpen ? 'primary' : undefined}
+            color={cfpOpen ? 'primary' : 'default'}
             className={classes.button}
             variant="outlined"
           >

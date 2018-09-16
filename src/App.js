@@ -3,6 +3,7 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import ButtonAppBar from './ButtonAppBar';
+import Drawer from '@material-ui/core/Drawer';
 import HomePage from './HomePage';
 import RegisterPage from './RegisterPage';
 import ProfilePage from './ProfilePage';
@@ -25,18 +26,20 @@ const theme = createMuiTheme({
 export default connect(
   {
     auth: state`auth`,
-    onLogin: signal`onLogin`,
+    ui: state`ui`,
     onOpenLogin: signal`onOpenLogin`,
-    onCloseLogin: signal`onCloseLogin`,
-    onReset: signal`onReset`
+    closeDrawer: signal`closeDrawer`
   },
-  function App({ auth, onOpenLogin }) {
+  function App({ auth, ui, onOpenLogin, closeDrawer }) {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
           <div>
             <LoginDialog registerUrl="/register" />
+            <Drawer open={ui.drawerOpen} onClose={() => closeDrawer()}>
+              This is the side menu
+            </Drawer>
             <ButtonAppBar
               onLogin={() => onOpenLogin()}
               user={auth.user}

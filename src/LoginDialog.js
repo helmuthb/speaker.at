@@ -38,7 +38,7 @@ class LoginDialog extends React.Component {
   }
 
   isLoginPossible = () =>
-    this.state.email && this.state.password && !this.props.auth.loginBusy;
+    this.state.email && this.state.password && !this.props.ui.loginBusy;
 
   handleLogin = () => {
     this.setState({ email: '', password: '' });
@@ -61,8 +61,8 @@ class LoginDialog extends React.Component {
   };
 
   render() {
-    const { fullScreen, auth, onCloseLogin } = this.props;
-    const busyDisabled = !!auth.loginBusy;
+    const { fullScreen, ui, onCloseLogin } = this.props;
+    const busyDisabled = !!ui.loginBusy;
     const buttonProgress = this.props.classes.buttonProgress;
     const disableLogin = busyDisabled || !this.isLoginPossible();
     const passwordHelperProps = {
@@ -74,7 +74,7 @@ class LoginDialog extends React.Component {
       <Dialog
         fullScreen={fullScreen}
         maxWidth="xs"
-        open={auth.loginActive}
+        open={ui.loginActive}
         onClose={() => onCloseLogin()}
         aria-labelledby="responsive-dialog-title"
         classes={{ paper: this.props.classes.dialogPaper }}
@@ -148,7 +148,7 @@ class LoginDialog extends React.Component {
 
 const ConnectedLoginDialog = connect(
   {
-    auth: state`auth`,
+    ui: state`ui`,
     onLogin: signal`onLogin`,
     onOpenLogin: signal`onOpenLogin`,
     onCloseLogin: signal`onCloseLogin`,

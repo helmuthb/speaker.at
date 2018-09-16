@@ -23,11 +23,11 @@ function logout({ state }) {
 }
 
 function closeLoginDialog({ state }) {
-  state.set('auth.loginActive', false);
+  state.set('ui.loginActive', false);
 }
 
 function openLoginDialog({ state }) {
-  state.set('auth.loginActive', true);
+  state.set('ui.loginActive', true);
 }
 
 function saveProfile({ props, state }) {
@@ -47,12 +47,23 @@ function saveProfile({ props, state }) {
   state.set('auth.user', user);
 }
 
+function closeDrawer({ state }) {
+  state.set('ui.drawerOpen', false);
+}
+
+function openDrawer({ state }) {
+  state.set('ui.drawerOpen', true);
+}
+
 const AppModule = Module({
   state: {
+    ui: {
+      drawerOpen: false,
+      loginActive: false,
+      loginBusy: false
+    },
     auth: {
       loggedIn: false,
-      loginActive: false,
-      loginBusy: false,
       user: {}
     },
     conferences: [
@@ -106,16 +117,18 @@ const AppModule = Module({
   },
   signals: {
     onLogin: [
-      set(state`auth.loginBusy`, true),
+      set(state`ui.loginBusy`, true),
       login,
-      set(state`auth.loginBusy`, false),
+      set(state`ui.loginBusy`, false),
       closeLoginDialog
     ],
     onLogout: [logout],
-    onOpenLogin: [set(state`auth.loginBusy`, false), openLoginDialog],
+    onOpenLogin: [set(state`ui.loginBusy`, false), openLoginDialog],
     onReset: [closeLoginDialog],
     onCloseLogin: [closeLoginDialog],
-    onSaveProfile: [saveProfile]
+    onSaveProfile: [saveProfile],
+    closeDrawer: [closeDrawer],
+    openDrawer: [openDrawer]
   }
 });
 

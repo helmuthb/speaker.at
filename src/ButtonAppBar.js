@@ -91,8 +91,7 @@ class ButtonAppBar extends Component {
         <AppBar position="fixed">
           <Toolbar>
             <IconButton
-              component={Link}
-              to="/"
+              onClick={() => this.props.openDrawer()}
               className={classes.menuButton}
               color="inherit"
               aria-label="Start"
@@ -152,7 +151,8 @@ const ConnectedButtonAppBar = connect(
   {
     auth: state`auth`,
     onOpenLogin: signal`onOpenLogin`,
-    onLogout: signal`onLogout`
+    onLogout: signal`onLogout`,
+    openDrawer: signal`openDrawer`
   },
   ButtonAppBar
 );

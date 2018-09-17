@@ -13,7 +13,7 @@ import Fade from '@material-ui/core/Fade';
 import Paper from '@material-ui/core/Paper';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import md5 from 'md5';
+import userImage from './UserImage';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
 
@@ -44,7 +44,7 @@ class ButtonAppBar extends Component {
   };
 
   handleLogoutClick = event => {
-    this.props.onLogout();
+    this.props.logout();
     this.setState({ open: false });
   };
 
@@ -53,16 +53,10 @@ class ButtonAppBar extends Component {
   };
 
   render() {
-    const { classes, title, auth, openLogin } = this.props;
+    const { classes, title, auth, openLogin, userImage } = this.props;
     let login;
     if (auth.loggedIn) {
-      const md5Hash = md5(('' + auth.user.email).trim().toLowerCase());
-      login = (
-        <Avatar
-          onClick={this.handleAvatarClick}
-          src={`https://www.gravatar.com/avatar/${md5Hash}?d=retro`}
-        />
-      );
+      login = <Avatar onClick={this.handleAvatarClick} src={userImage} />;
     } else {
       login = (
         <React.Fragment>
@@ -151,8 +145,9 @@ const ConnectedButtonAppBar = connect(
   {
     auth: state`auth`,
     openLogin: signal`openLogin`,
-    onLogout: signal`onLogout`,
-    openDrawer: signal`openDrawer`
+    logout: signal`logout`,
+    openDrawer: signal`openDrawer`,
+    userImage
   },
   ButtonAppBar
 );

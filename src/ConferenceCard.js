@@ -79,7 +79,7 @@ class ConferenceCard extends React.Component {
               src={conference.logo}
             />
           }
-          title={conference.name}
+          title={conference.title}
           subheader={moment(conference.conferenceFrom).format('D MMMM Y')}
         />
         <CardContent

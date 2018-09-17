@@ -1,4 +1,5 @@
 import { Module } from 'cerebral';
+import md5 from 'md5';
 import { set } from 'cerebral/operators';
 import { state } from 'cerebral/tags';
 
@@ -64,14 +65,17 @@ const AppModule = Module({
     },
     auth: {
       loggedIn: false,
-      user: {}
+      user: {
+        firstName: '',
+        lastName: '',
+        email: ''
+      }
     },
     conferences: [
       {
-        id: 1,
         key: 'devfest-2018',
         series: 'DevFest Vienna',
-        name: 'DevFest Vienna 2018',
+        title: 'DevFest Vienna 2018',
         description:
           'DevFest Vienna is a yearly conference, with topics all around Mobile, Web, Social and Cloud.',
         conferenceFrom: 1543050000000,
@@ -84,10 +88,9 @@ const AppModule = Module({
         url: 'https://devfest.at'
       },
       {
-        id: 2,
         key: 'droidcon-2018',
         series: 'droidcon Vienna',
-        name: 'droidcon Vienna 2018',
+        title: 'droidcon Vienna 2018',
         description: 'droidcon brings the best from Android to Vienna!',
         conferenceFrom: 1537520400000,
         conferenceTo: 1537632000000,
@@ -99,10 +102,9 @@ const AppModule = Module({
         url: 'https://droidcon.at'
       },
       {
-        id: 3,
         key: 'wtmvienna-2018',
         series: 'Women Techmakers Vienna',
-        name: 'Women Techmakers Vienna 2018',
+        title: 'Women Techmakers Vienna 2018',
         description: 'WTM Vienna - for women and men alike',
         conferenceFrom: 1537520400000,
         conferenceTo: 1537632000000,
@@ -113,6 +115,16 @@ const AppModule = Module({
         logo: 'https://droidcon.at/img/sprites/logo_droidcon-small.png',
         url: 'https://droidcon.at'
       }
+    ],
+    proposals: [
+      {
+        key: 'proposal-1',
+        conference: 'wtmvienna-2018',
+        title: 'Why we should have droidcon in Vienna',
+        description:
+          'We all are wondering: should we have droidcon in Vienna? We think yes!',
+        duration: '45 Minutes'
+      }
     ]
   },
   signals: {
@@ -122,7 +134,7 @@ const AppModule = Module({
       set(state`ui.loginBusy`, false),
       closeLoginDialog
     ],
-    onLogout: [logout],
+    logout: [logout],
     openLogin: [set(state`ui.loginBusy`, false), openLoginDialog],
     resetPassword: [closeLoginDialog],
     onCloseLogin: [closeLoginDialog],

@@ -7,6 +7,7 @@ import DrawerMenu from './DrawerMenu';
 import HomePage from './HomePage';
 import RegisterPage from './RegisterPage';
 import ProfilePage from './ProfilePage';
+import ConferencePage from './ConferencePage';
 import LoginDialog from './LoginDialog';
 import { connect } from '@cerebral/react';
 import { state, signal } from 'cerebral/tags';
@@ -45,6 +46,10 @@ export default connect(
               <Route
                 path="/profile"
                 render={props => <ProfilePage registerUrl="/register" />}
+              />
+              <Route
+                path="/conference/:conferenceKey"
+                component={ConferencePage}
               />
             </main>
           </div>

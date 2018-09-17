@@ -1,5 +1,4 @@
 import { Module } from 'cerebral';
-import md5 from 'md5';
 import { set } from 'cerebral/operators';
 import { state } from 'cerebral/tags';
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import { connect } from '@cerebral/react';
-import { state } from 'cerebral/tags';
 import { Grid, Paper, Typography, withStyles } from '@material-ui/core';
 import ConferenceCard from './ConferenceCard';
 import LoginReminder from './LoginReminder';
+import visibleConferences from './VisibleConferences';
+import { connect } from '@cerebral/react';
+import { state } from 'cerebral/tags';
 
 const styles = theme => ({
   layout: {
@@ -29,10 +30,7 @@ const styles = theme => ({
 class HomePage extends React.Component {
   render() {
     const classes = this.props.classes;
-    const currentDate = new Date().getTime();
-    const visibleConferences = this.props.conferences
-      .filter(conference => conference.conferenceFrom > currentDate)
-      .sort((c1, c2) => c1.cfpTo > c2.cfpTo);
+    const visibleConferences = this.props.visibleConferences;
     return (
       <Grid container spacing={40} className={classes.layout}>
         <Grid item xs={12}>
@@ -70,7 +68,7 @@ class HomePage extends React.Component {
           <LoginReminder />
         </Grid>
         {visibleConferences.map(conference => (
-          <Grid key={conference.id} item xs={12} sm={6} lg={4}>
+          <Grid key={conference.key} item xs={12} sm={6} lg={4}>
             <ConferenceCard conference={conference} />
           </Grid>
         ))}
@@ -82,7 +80,7 @@ class HomePage extends React.Component {
 const ConnectedHomePage = connect(
   {
     auth: state`auth`,
-    conferences: state`conferences`
+    visibleConferences
   },
   HomePage
 );

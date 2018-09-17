@@ -2,9 +2,7 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import userImage from './UserImage';
@@ -75,30 +73,37 @@ export default withStyles(styles)(
             </div>
           </div>
           <MenuList className={classes.menu}>
-            <MenuItem component={Link} to="/">
+            <MenuItem key="home" component={Link} to="/">
               Start Page
             </MenuItem>
-            {auth.loggedIn ? (
-              <React.Fragment>
-                <MenuItem component={Link} to="/profile">
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={() => logout()}>Logout</MenuItem>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <MenuItem component={Link} to="/register">
-                  Register
-                </MenuItem>
-                <MenuItem onClick={() => openLogin()}>Login</MenuItem>
-              </React.Fragment>
-            )}
-            <Divider />
-            {visibleConferences.map(conference => (
-              <MenuItem component={Link} to={`/conference/${conference.key}`}>
-                {conference.title}
-              </MenuItem>
-            ))}
+            {auth.loggedIn
+              ? [
+                  <MenuItem key="profile" component={Link} to="/profile">
+                    Profile
+                  </MenuItem>,
+                  <MenuItem key="logout" onClick={() => logout()}>
+                    Logout
+                  </MenuItem>,
+                  <Divider key="divider" />
+                ].concat(
+                  visibleConferences.map(conference => (
+                    <MenuItem
+                      key={conference.key}
+                      component={Link}
+                      to={`/conference/${conference.key}`}
+                    >
+                      {conference.title}
+                    </MenuItem>
+                  ))
+                )
+              : [
+                  <MenuItem key="register" component={Link} to="/register">
+                    Register
+                  </MenuItem>,
+                  <MenuItem key="login" onClick={() => openLogin()}>
+                    Login
+                  </MenuItem>
+                ]}
           </MenuList>
         </Drawer>
       );

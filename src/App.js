@@ -25,10 +25,9 @@ const theme = createMuiTheme({
 
 export default connect(
   {
-    auth: state`auth`,
-    onOpenLogin: signal`onOpenLogin`
+    auth: state`auth`
   },
-  function({ auth, onOpenLogin }) {
+  function({ auth }) {
     return (
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
@@ -36,11 +35,7 @@ export default connect(
           <div>
             <LoginDialog registerUrl="/register" />
             <DrawerMenu />
-            <ButtonAppBar
-              onLogin={() => onOpenLogin()}
-              user={auth.user}
-              title="Speaker @ GDG Vienna"
-            />
+            <ButtonAppBar user={auth.user} title="Speaker @ GDG Vienna" />
             <main className="content">
               <Route exact path="/" render={props => <HomePage />} />
               <Route

@@ -150,7 +150,7 @@ const ConnectedLoginDialog = connect(
   {
     ui: state`ui`,
     onLogin: signal`onLogin`,
-    onOpenLogin: signal`onOpenLogin`,
+    openLogin: signal`openLogin`,
     onCloseLogin: signal`onCloseLogin`,
     onReset: signal`onReset`
   },

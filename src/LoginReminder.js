@@ -45,7 +45,7 @@ class LoginReminder extends React.Component {
 const ConnectedLoginReminder = connect(
   {
     auth: state`auth`,
-    onOpenLogin: signal`onOpenLogin`
+    openLogin: signal`openLogin`
   },
   LoginReminder
 );

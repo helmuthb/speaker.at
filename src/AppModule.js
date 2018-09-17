@@ -123,8 +123,8 @@ const AppModule = Module({
       closeLoginDialog
     ],
     onLogout: [logout],
-    onOpenLogin: [set(state`ui.loginBusy`, false), openLoginDialog],
-    onReset: [closeLoginDialog],
+    openLogin: [set(state`ui.loginBusy`, false), openLoginDialog],
+    resetPassword: [closeLoginDialog],
     onCloseLogin: [closeLoginDialog],
     onSaveProfile: [saveProfile],
     closeDrawer: [closeDrawer],

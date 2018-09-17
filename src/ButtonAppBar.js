@@ -53,7 +53,7 @@ class ButtonAppBar extends Component {
   };
 
   render() {
-    const { classes, title, auth, onOpenLogin } = this.props;
+    const { classes, title, auth, openLogin } = this.props;
     let login;
     if (auth.loggedIn) {
       const md5Hash = md5(('' + auth.user.email).trim().toLowerCase());
@@ -76,7 +76,7 @@ class ButtonAppBar extends Component {
           </Button>
           <Button
             className={classes.button}
-            onClick={() => onOpenLogin()}
+            onClick={() => openLogin()}
             color="inherit"
             variant="outlined"
           >
@@ -150,7 +150,7 @@ ButtonAppBar.propTypes = {
 const ConnectedButtonAppBar = connect(
   {
     auth: state`auth`,
-    onOpenLogin: signal`onOpenLogin`,
+    openLogin: signal`openLogin`,
     onLogout: signal`onLogout`,
     openDrawer: signal`openDrawer`
   },
